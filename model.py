@@ -2,6 +2,7 @@ import sys
 import pandas as pd
 import numpy as np
 
+from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.impute import KNNImputer
@@ -23,6 +24,15 @@ if __name__ == '__main__':
     test_X = test.drop(['target_full_ltv_day30', 'target_sub_ltv_day30', 'target_ad_ltv_day30', 'target_iap_ltv_day30'], axis=1)
     test_y = test['target_full_ltv_day30'].copy()
 
+    ### Create ColumnTransformer
+    cat = [col for col in train_X.columns if train_X[col].dtype == "O"]
+    num = [col for col in train_X.columns if train_X[col].dtype != "O"]
+
+    cols_trans = ColumnTransformer(transformers=[
+        ('encoding', OneHotEncoder(handle_unknown='ignore', sparse=False), cat),
+        ('scaling', StandardScaler(), num)
+    ])
+
     ### Initialize models
     rfr = RandomForestRegressor()
     etr = ExtraTreesRegressor()
@@ -32,8 +42,7 @@ if __name__ == '__main__':
     ### Create pipeline
     pipe = Pipeline(
         steps=[
-            ('encoding', OneHotEncoder(handle_unknown='ignore', sparse=False)), 
-            ('scaling', StandardScaler()), 
+            ('data_engineering', cols_trans), 
             ('imputing', KNNImputer(n_neighbors=7)), 
             ('clustering', KMeans(n_clusters=2)), 
             ('stacking_regressor', StackingRegressor(estimators=estimators, cv=3, n_jobs=-1, verbose=1))

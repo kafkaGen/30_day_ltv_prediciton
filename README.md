@@ -35,5 +35,7 @@ Where:
 - test_path - path to file with data to predict in format .csv
 - answer_path - path to place where predicted data will be stored in format .csv
 
-## <b>Examples of use</b>
+## <b>Example of use</b>
 Out of 1.5 million instances of data, my machine could only learn about a third, producing the following results:
+
+![Example](./result.png)

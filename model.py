@@ -13,7 +13,7 @@ from sklearn.metrics import mean_squared_error
 
 if __name__ == '__main__':
     ### Initialize console parametrs
-    train_path, test_path, save_path = str(sys.argv[1])[:-1], str(sys.argv[2])[:-1], str(sys.argv[3])
+    train_path, test_path, save_path = str(sys.argv[1]), str(sys.argv[2]), str(sys.argv[3])
 
     ### Split sets on features/ target
     train = pd.read_csv(train_path)

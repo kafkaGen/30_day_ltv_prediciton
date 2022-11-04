@@ -38,4 +38,4 @@ Where:
 ## <b>Example of use</b>
 Out of 1.5 million instances of data, my machine could only learn about a third, producing the following results:
 
-![Example](ds.jpg)
+![Example](ds.png)
